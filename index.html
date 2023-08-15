@@ -25,17 +25,11 @@
         <p>Welcome to my profile website! I am a passionate web developer with a keen interest in creating beautiful and functional websites.</p>
     </section>
     
-    <section id="portfolio">
+  <section id="portfolio">
         <h2>Portfolio</h2>
-        <div class="project">
-            <h3>Project 1</h3>
-            <p>Description of Project 1.</p>
+        <div id="project-list" class="project-list">
+            <!-- Repositories will be added here dynamically using JavaScript -->
         </div>
-        <div class="project">
-            <h3>Project 2</h3>
-            <p>Description of Project 2.</p>
-        </div>
-        <!-- Add more project entries as needed -->
     </section>
     
     <section id="contact">
@@ -47,5 +41,49 @@
         <p>&copy; 2023 Your Name</p>
     </footer>
 </body>
-<script data-cfasync="false" type="text/javascript" data-adel="atag" src="//acacdn.com/script/atg.js" czid="zd2egwrc3m"></script>
+<script data-cfasync="false" type="text/javascript" data-adel="atag" src="//acacdn.com/script/atg.js" czid="zd2egwrc3m">
+// Fetch repositories from GitHub API
+const API_URL = 'https://api.github.com/users/chadecodex/repos';
+const projectList = document.getElementById('project-list');
+
+async function fetchRepositories() {
+    try {
+        const response = await fetch(API_URL);
+        const repositories = await response.json();
+        return repositories;
+    } catch (error) {
+        console.error('Error fetching repositories:', error);
+        return [];
+    }
+}
+
+async function displayRepositories() {
+    const repositories = await fetchRepositories();
+
+    repositories.forEach(repo => {
+        const projectCard = document.createElement('div');
+        projectCard.classList.add('project-card');
+        
+        const projectName = document.createElement('h3');
+        projectName.textContent = repo.name;
+        
+        const projectDescription = document.createElement('p');
+        projectDescription.textContent = repo.description || 'No description available.';
+        
+        const projectLink = document.createElement('a');
+        projectLink.href = repo.html_url;
+        projectLink.target = '_blank';
+        projectLink.textContent = 'View on GitHub';
+        
+        projectCard.appendChild(projectName);
+        projectCard.appendChild(projectDescription);
+        projectCard.appendChild(projectLink);
+        
+        projectList.appendChild(projectCard);
+    });
+}
+
+displayRepositories();
+
+</script>
 </html>
