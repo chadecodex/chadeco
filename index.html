@@ -75,8 +75,12 @@ async function displayRepositories() {
         projectLink.target = '_blank';
         projectLink.textContent = 'View on GitHub';
         
+        const ownerInfo = document.createElement('p');
+        ownerInfo.textContent = `Owner: ${repo.owner.login}`;
+        
         projectCard.appendChild(projectName);
         projectCard.appendChild(projectDescription);
+        projectCard.appendChild(ownerInfo);
         projectCard.appendChild(projectLink);
         
         projectList.appendChild(projectCard);
@@ -84,6 +88,7 @@ async function displayRepositories() {
 }
 
 displayRepositories();
+
 
 </script>
 </html>
